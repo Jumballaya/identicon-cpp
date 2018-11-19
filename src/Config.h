@@ -39,5 +39,4 @@ class Config {
     int padding;
 };
 
-
 #endif

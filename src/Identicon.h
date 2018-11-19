@@ -9,9 +9,9 @@
 
 class Identicon {
   public:
-    Identicon(char** argv);
+    Identicon(Config* cfg);
 
-    Config           cfg;
+    Config*           cfg;
     std::string       input;
     Magick::Image     image;
     std::vector<int>  hashMatrix;

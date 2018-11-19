@@ -13,8 +13,9 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  Identicon ident(argv);
-  ident.save(argv[2]);
+  Config cfg(argv);
+  Identicon ident(&cfg);
+  ident.save(cfg.getOutput());
 
   return 0;
 }

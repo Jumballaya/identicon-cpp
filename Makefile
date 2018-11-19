@@ -1,6 +1,4 @@
 ####
-# Operating System Makefile
-#
 # $@ - Target file
 # $< - First dependecy
 # $^ - All dependecies

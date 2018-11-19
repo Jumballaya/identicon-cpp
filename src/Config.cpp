@@ -4,13 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include "Config.h"
-
-// itoa converts int to string
-std::string itoa(int i) {
-  std::ostringstream oss;
-  oss << i;
-  return oss.str();
-}
+#include "util.h"
 
 // Constructor
 Config::Config(char **argv) {
@@ -23,6 +17,41 @@ Config::Config(char **argv) {
     ->setPadding(atoi(argv[5]));
 }
 
+/***
+ *
+ * GETTERS
+ *
+ */
+std::string Config::getOutput() {
+  return this->output;
+}
+
+std::string Config::getInput() {
+  return this->input;
+};
+
+std::string Config::getDir() {
+  return this->dir;
+};
+
+int Config::getWidth() {
+  return this->width;
+};
+
+int Config::getHeight() {
+  return this->height;
+};
+
+int Config::getPadding() {
+  return this->padding;
+};
+
+
+/***
+ *
+ * SETTERS
+ *
+ */
 Config* Config::setOutput(std::string o) {
   this->output = o;
   return this;
@@ -53,6 +82,7 @@ Config* Config::setPadding(int p) {
   return this;
 };
 
+// Config::toString returns a formatted string of the config
 std::string Config::toString() {
   std::string out = "";
 
