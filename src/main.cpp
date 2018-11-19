@@ -3,11 +3,13 @@
  */
 #include <iostream>
 #include "Identicon.h"
+#include "Config.h"
 
 int main(int argc, char **argv) {
 
-  if (argc < 2) {
-    printf("Error: please enter output path.");
+  if (argc < 4) {
+    printf("Usage: \n");
+    printf("identicon <input> <output> <length> <width> <padding>\n");
     return 1;
   }
 

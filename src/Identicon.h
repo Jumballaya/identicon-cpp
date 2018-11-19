@@ -5,21 +5,25 @@
 #define IDENTICON_H
 
 #include <Magick++.h>
+#include "Config.h"
 
 class Identicon {
   public:
-    std::string input;
-    Identicon(char **argv);
-    Magick::Image image;
-    std::vector<int> hashMatrix;
+    Identicon(char** argv);
+
+    Config           cfg;
+    std::string       input;
+    Magick::Image     image;
+    std::vector<int>  hashMatrix;
+
     std::string toString();
 
     void save(std::string out);
     void generate();
   private:
-    int width;
-    int height;
-    int padding;
+    int         width;
+    int         height;
+    int         padding;
     std::string color;
 
     void buildHashMatrix();

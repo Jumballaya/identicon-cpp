@@ -4,6 +4,7 @@
 #include <Magick++.h>
 #include <iostream>
 #include <sstream>
+#include "Config.h"
 
 #include "Identicon.h"
 #include "md5.h"
@@ -13,6 +14,7 @@
 using namespace std;
 using namespace Magick;
 
+// hext2Int converts a string hex value to an int, e.g. "ff" -> 255
 int hex2Int(string h) {
   int x;
   stringstream ss;
@@ -21,6 +23,10 @@ int hex2Int(string h) {
   return x;
 }
 
+// mirror mirrors a vector of ints by the given row width
+// examples:
+//    mirror({1, 1, 0}, 3) -> {0, 1, 1}
+//    mirror({1, 1, 0, 0, 0, 1}, 3) -> {0, 1, 1, 1, 0, 0}
 vector<int> mirror(vector<int> left, int width) {
   vector<int> right(15);
 
@@ -29,18 +35,31 @@ vector<int> mirror(vector<int> left, int width) {
   int col = 0;
   for (int i = 0; (unsigned int)i < left.size(); i++) {
     int offset = row * width;
+
+    // r[0] = r[width], r[1] = r[width - 1] ... etc
+    // This mirrors the left row into the right row
     right[offset + col] = left[(offset + (width - col)) - 1];
 
     col++;
-    if (col >= width) {
-      col = 0;
-    }
+    if (col >= width) col = 0;
     if ((i + 1) % width == 0) row++;
   }
 
   return right;
 }
 
+// mirrorVector creates a vector twice the size of the input vector.
+// example:
+//    vector<int> left({ 1, 1, 0, 0, 0, 1 });
+//                      |        |       |
+//                        row 1    row 2
+//
+//    mirrorVector(left) = { 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0 }
+//                          |        |        |        |       |
+//                             left     right    left    right
+//                          |                 |                |
+//                                 row 1            row 2
+//
 vector<int> mirrorVector(vector<int> left, int width) {
   vector<int> right = mirror(left, width);
   vector<int> full(left.size() * 2);
@@ -60,40 +79,44 @@ vector<int> mirrorVector(vector<int> left, int width) {
   return full;
 }
 
+// Identicon constructor
 Identicon::Identicon(char **argv) {
-  Image image("1000x1000", "white");
-  this->width = 1001;
-  this->height = 1001;
-  this->padding = 10;
-  this->input = argv[1];
+  //Config cfg(argv);
+  //this->cfg = cfg;
 
-  this->hashMatrix = vector<int>(DEFAULT_IMAGE);
+  //string dimensions;
+  //dimensions += cfg.getWidth();
+  //dimensions += "x";
+  //dimensions += cfg.getHeight();
 
-  InitializeMagick(*argv);
+  //std::cout << dimensions << std::endl;
 
-  this->image = image;
-  this->generate();
+  //Image image(dimensions, "white");
+  //this->width = cfg.getWidth();
+  //this->height = cfg.getHeight();
+  //this->padding = cfg.getPadding();
+  //this->input = cfg.getInput();
+  //this->hashMatrix = vector<int>(DEFAULT_IMAGE);
+
+  //InitializeMagick(cfg.getDir().c_str());
+
+  //this->image = image;
+  //this->generate();
 }
 
+// Identicon::generate builds the hashMatrix and uses it to create the image
 void Identicon::generate() {
   this->buildHashMatrix();
   int sLength = (this->width / 6.0);
   int sWidth = (this->height / 5.0);
   int width = 6;
-  string color = "";
 
-  for (int i = 0; (unsigned int)i < this->hashMatrix.size(); i++) {
-    string white = "white";
-
+  for (int i = 0; i < (int) this->hashMatrix.size(); i++) {
     int row = i / width;
     int col = (i + 1) % width;
+    string color = this->hashMatrix[i] == 1 ? this->color : "white";
 
-    if (this->hashMatrix[i] == 1) {
-      color = this->color;
-    } else {
-      color = white;
-    }
-
+    // Starting points for the color block
     int iStart = col * sLength;
     int jStart = row * sWidth;
 
