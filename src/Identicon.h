@@ -18,7 +18,7 @@ class Identicon {
 
     std::string toString();
 
-    void save(std::string out);
+    void save();
     void generate();
   private:
     int         width;

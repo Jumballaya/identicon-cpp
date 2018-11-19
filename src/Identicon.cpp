@@ -43,17 +43,19 @@ void Identicon::generate() {
 
   for (int i = 0; i < (int) this->hashMatrix.size(); i++) {
     int row = i / width;
-    int col = (i + 1) % width;
-    string color = this->hashMatrix[i] == 1 ? this->color : "white";
+    int col = (i) % width;
+    if (this->hashMatrix[i] == 1) {
 
-    // Starting points for the color block
-    int iStart = col * sLength;
-    int jStart = row * sWidth;
+      // Starting points for the color block
+      int jStart = col * sLength;
+      int kStart = row * sWidth;
 
-    for (int i = 0; i < sLength; i++) {
-      for (int j = 0; j < sWidth; j++) {
-        this->image.pixelColor(i + iStart, j + jStart, Color(color));
+      for (int j = 0; j < sLength; j++) {
+        for (int k = 0; k < sWidth; k++) {
+          this->image.pixelColor(j + jStart, k + kStart, Color(this->color));
+        }
       }
+
     }
 
   }
@@ -62,7 +64,7 @@ void Identicon::generate() {
 
 // Identicon::save saves the image the output file
 void Identicon::save() {
-  this->image.write(this->opts->getOutput());
+  this->image.write(this->cfg->getOutput());
 }
 
 // Identicon::toString converts the hash matrix to a formatted string
@@ -70,7 +72,7 @@ string Identicon::toString() {
   vector<int> v = this->hashMatrix;
   string s;
   for (int i = 0; (unsigned int)i < v.size(); i++) {
-    s += v[i];
+    s += itoa(v[i]);
     s += " ";
     if ((i + 1) % 6 == 0) {
       s += "\n";
