@@ -11,13 +11,14 @@ class Identicon {
     std::string input;
     Identicon(char **argv);
     Magick::Image image;
-    int hashMatrix[30];
+    std::vector<int> hashMatrix;
+    std::string toString();
 
     void save(std::string out);
     void generate();
   private:
-    int length;
     int width;
+    int height;
     int padding;
     std::string color;
 
