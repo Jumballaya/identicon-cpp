@@ -16,7 +16,7 @@
 std::string itoa(int i);
 
 // hext2Int converts a string hex value to an int, e.g. "ff" -> 255
-int hex2Int(std::string h);
+int htoi(std::string h);
 
 // mirror mirrors a vector of ints by the given row width
 std::vector<int> mirror(std::vector<int> left, int width);

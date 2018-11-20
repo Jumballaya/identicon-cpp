@@ -13,7 +13,7 @@ string itoa(int i) {
 }
 
 // hext2Int converts a string hex value to an int, e.g. "ff" -> 255
-int hex2Int(string h) {
+int htoi(string h) {
   int x;
   stringstream ss;
   ss << hex << h;

@@ -94,7 +94,7 @@ void Identicon::buildHashMatrix() {
     string h;
     h += hashed.at(i);
     h += hashed.at(i + 1);
-    int val = hex2Int(h);
+    int val = htoi(h);
     hexVector[count] = h;
     left[count] = val > 125 ? 1 : 0;
     count++;
